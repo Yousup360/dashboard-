@@ -1,16 +1,165 @@
-                { 
-                    data: 'status', 
-                    render: function(data) {
-                        let color = data === 'Out' ? 'bg-rose-100 text-rose-600' : 'bg-emerald-100 text-emerald-600';
-                        return `<span class="px-3 py-1 rounded-lg text-[10px] font-black uppercase ${color}">${data}</span>`;
-                    }
-                },
-                { data: 'action', orderable: false, class: 'text-right py-6 px-4' }
-            ],
-            dom: '<"flex justify-between p-4"f>rt<"flex justify-between p-4"ip>',
-            language: { search: "", searchPlaceholder: "সার্চ করুন..." }
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yusuf Ali | Pro Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
+    <style>
+        body { font-family: 'Inter', 'Hind Siliguri', sans-serif; }
+        .active-menu { @apply bg-indigo-600 text-white shadow-lg shadow-indigo-200; }
+        /* DataTables Custom Style */
+        .dataTables_wrapper .dataTables_filter input {
+            @apply border border-slate-200 rounded-xl px-4 py-2 mb-4 outline-none focus:ring-2 focus:ring-indigo-500;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 antialiased">
+
+    <div class="flex min-h-screen overflow-hidden">
+        
+        <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-72 bg-white border-r border-slate-200 transition-transform duration-300 transform lg:translate-x-0 lg:static lg:inset-0">
+            <div class="flex flex-col h-full">
+                <div class="p-6 flex items-center gap-3">
+                    <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-black text-xl shadow-indigo-200 shadow-lg">Y</div>
+                    <span class="text-xl font-extrabold tracking-tight text-slate-800">Yusuf<span class="text-indigo-600">ERP</span></span>
+                </div>
+
+                <nav class="flex-1 px-4 space-y-2 overflow-y-auto">
+                    <p class="px-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">মেইন মেনু</p>
+                    <a href="#" class="active-menu flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition-all">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                        ড্যাশবোর্ড
+                    </a>
+                    <a href="#" class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-50 rounded-xl font-medium transition-all group">
+                        <svg class="w-5 h-5 group-hover:text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+                        ইনভেন্টরি
+                    </a>
+                    <a href="#" class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-50 rounded-xl font-medium transition-all group">
+                        <svg class="w-5 h-5 group-hover:text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                        সেলস রিপোর্ট
+                    </a>
+                </nav>
+
+                <div class="p-4 border-t border-slate-100 bg-slate-50/50">
+                    <div class="flex items-center gap-3">
+                        <img src="https://ui-avatars.com/api/?name=Yusuf+Ali&background=4f46e5&color=fff" class="w-10 h-10 rounded-full border-2 border-white shadow-sm" alt="">
+                        <div>
+                            <p class="text-sm font-bold text-slate-800">ইউসুফ আলী</p>
+                            <p class="text-[10px] text-slate-500 font-bold uppercase">সুপার এডমিন</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <div class="flex-1 flex flex-col min-w-0 bg-slate-50">
+            
+            <header class="h-20 bg-white border-b border-slate-200 flex items-center justify-between px-4 md:px-8 sticky top-0 z-40">
+                <div class="flex items-center gap-4">
+                    <button id="menu-toggle" class="lg:hidden p-2 bg-slate-100 rounded-lg">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    </button>
+                    <h2 class="text-lg font-bold text-slate-700 hidden md:block uppercase tracking-tight">সিস্টেম ওভারভিউ</h2>
+                </div>
+                
+                <div class="flex items-center gap-4">
+                    <div class="relative hidden sm:block">
+                        <input type="text" placeholder="সার্চ..." class="bg-slate-100 border-none rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-indigo-500 w-64">
+                    </div>
+                    <button class="p-2 text-slate-400 hover:text-indigo-600 transition relative">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                        <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+                    </button>
+                </div>
+            </header>
+
+            <main class="p-4 md:p-8 overflow-y-auto">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+                        <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest">আজকের বিক্রি</p>
+                        <h3 class="text-2xl font-black text-slate-800 mt-1">৳ ৪৫,৮০০</h3>
+                        <p class="text-xs text-green-500 font-bold mt-2">↑ ১৪% গতকালের চেয়ে</p>
+                    </div>
+                    <div class="bg-indigo-600 p-6 rounded-3xl shadow-indigo-200 shadow-xl text-white">
+                        <p class="text-indigo-100 text-[10px] font-bold uppercase tracking-widest">মোট কাস্টমার</p>
+                        <h3 class="text-2xl font-black mt-1">১২,৪৫০ জন</h3>
+                        <p class="text-xs text-indigo-200 font-medium mt-2 tracking-wide">লাইভ ডাটা আপডেট</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 text-slate-800">
+                        <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest">স্টক আউট অ্যালার্ট</p>
+                        <h3 class="text-2xl font-black mt-1 text-rose-500">০৮ টি</h3>
+                        <p class="text-xs text-slate-400 font-medium mt-2 italic">অ্যাকশন প্রয়োজন</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+                        <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest">নেট প্রফিট</p>
+                        <h3 class="text-2xl font-black text-slate-800 mt-1">৳ ৮,২০,০০০</h3>
+                        <p class="text-xs text-indigo-500 font-bold mt-2 tracking-wide">মার্চ ২০২৬</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-[2rem] shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden">
+                    <div class="p-6 border-b border-slate-50 flex flex-col md:flex-row justify-between items-center gap-4 bg-white">
+                        <h4 class="text-lg font-extrabold text-slate-800 tracking-tight">রিয়েল-টাইম ইনভেন্টরি রিপোর্ট</h4>
+                        <div class="flex gap-2">
+                            <button class="bg-slate-50 text-slate-600 px-4 py-2 rounded-xl text-xs font-bold hover:bg-slate-100 transition">ফিল্টার</button>
+                            <button class="bg-indigo-600 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-lg shadow-indigo-100 transition">এক্সপোর্ট</button>
+                        </div>
+                    </div>
+
+                    <div class="p-6 overflow-x-auto">
+                        <table id="main-table" class="w-full text-left">
+                            <thead class="bg-slate-50 text-slate-400 text-[10px] uppercase font-bold tracking-[0.2em]">
+                                <tr>
+                                    <th class="py-4 px-4">প্রোডাক্ট নাম</th>
+                                    <th class="py-4 px-4">ক্যাটাগরি</th>
+                                    <th class="py-4 px-4 text-center">স্টক</th>
+                                    <th class="py-4 px-4">স্ট্যাটাস</th>
+                                    <th class="py-4 px-4 text-right">অ্যাকশন</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-50 text-sm font-medium text-slate-600">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#main-table').DataTable({
+                processing: true,
+                serverSide: true, // ২০ মিলিয়ন ডাটার জন্য মাস্ট
+                ajax: "{{ route('your.data.route') }}", // এখানে আপনার লারাভেল রাউট দিবেন
+                columns: [
+                    { data: 'name', name: 'name', class: 'font-bold text-slate-800 py-5 px-4' },
+                    { data: 'category', name: 'category', class: 'py-5 px-4' },
+                    { data: 'stock', name: 'stock', class: 'text-center font-mono py-5 px-4' },
+                    { 
+                        data: 'status', 
+                        render: function(data) {
+                            let color = data === 'Out' ? 'bg-rose-100 text-rose-600' : 'bg-emerald-100 text-emerald-600';
+                            return `<span class="px-3 py-1 rounded-lg text-[10px] font-black uppercase ${color}">${data}</span>`;
+                        }
+                    },
+                    { data: 'action', orderable: false, class: 'text-right py-5 px-4' }
+                ],
+                dom: '<"flex justify-between items-center mb-4"f>rt<"flex justify-between items-center mt-6"ip>',
+                language: { search: "", searchPlaceholder: "প্রোডাক্ট খুঁজুন...", paginate: { previous: "আগের", next: "পরের" } }
+            });
+
+            // মোবাইল মেনু টগল
+            $('#menu-toggle').click(function() {
+                $('#sidebar').toggleClass('-translate-x-full');
+            });
         });
-    });
-</script>
+    </script>
 </body>
 </html>
